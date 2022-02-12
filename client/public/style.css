@@ -1,0 +1,141 @@
+.bd-navbar {
+  padding: 0.75rem 0;
+  background-color: #128c7e;
+}
+.navbar-custom {
+  background-color: #128c7e;
+}
+/* Modify brand and text color */
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: #ffffff;
+}
+.margin {
+  margin: 2.5%;
+}
+.nav-link {
+  color: #fff !important;
+}
+.weight {
+  font-weight: 600 !important;
+}
+body {
+  background-color: #128c7e;
+  background-position: center center;
+}
+/* .margin {
+    
+    margin: 7% 15%;
+  } */
+.fontt {
+  font-family: "Poppins", sans-serif;
+  font-size: 29px;
+  font-weight: 700;
+  color: white;
+}
+.pad {
+  padding: 20px !important;
+}
+.r-margin {
+  margin-left: 100px !important;
+}
+.l-margin {
+  margin-right: 200px !important;
+}
+h1 {
+  color: white;
+}
+label {
+  margin: 2.5%;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 29px;
+}
+select {
+  margin: 2.5%;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #128c7e;
+  border-color: #128c7e;
+}
+.btn-primary:hover {
+  color: #128c7e;
+  background-color: #fff;
+  border-color: #fff;
+}
+.center {
+  /* position: absolute; */
+  left: 50%;
+  top: 88%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+#submitt {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* designing the style button  */
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: #128c7e;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,
+.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: #128c7e;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}

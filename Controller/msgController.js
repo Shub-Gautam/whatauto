@@ -2,14 +2,10 @@ const { Client, MessageMedia } = require("whatsapp-web.js");
 
 exports.sendmsg = async (req, res) => {
   try {
-    const { msg, countryCallingCode, gender } = req.body;
+    const { msg, countryCallingCode, gender, session } = req.body;
 
-    const client = new Client();
-
-    client.on("qr", (qr) => {
-      // Generate and scan this code with your phone
-      console.log("QR RECEIVED", qr);
-      res.send(qr);
+    const client = new Client({
+      session: session,
     });
 
     client.on("ready", async () => {
@@ -22,6 +18,8 @@ exports.sendmsg = async (req, res) => {
       // numbersArray.forEach(numb => {
       //   // copy the logic here
       // });
+
+      // res.end();
 
       const types = ["image/png", "image/jpeg", "image/gif"];
 
@@ -36,7 +34,7 @@ exports.sendmsg = async (req, res) => {
       const number_det = final_number + "@c.us";
 
       // await client.sendMessage(number_det, media);
-      // await client.sendMessage(number_det, msg); // send message
+      await client.sendMessage(number_det, msg); // send message
     });
 
     client.initialize();
