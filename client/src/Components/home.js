@@ -13,10 +13,11 @@ toast.configure();
 
 function Home() {
   const btn = useRef(null);
+  const hed = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [countryCallingCode, setCountry] = useState("");
+  const [countryCallingCode, setCountry] = useState("91");
   const [qrcode, setQRCode] = useState(false);
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("1");
   const [session, setSession] = useState("");
 
   let navigate = useNavigate();
@@ -26,18 +27,19 @@ function Home() {
   };
 
   const getQRCode = async () => {
-    setLoading(true);
+    hed.current.hidden = false;
     socket.emit("message", "sendqr");
     socket.on("qrsend", (qr) => {
       setQRCode(qr);
+      hed.current.hidden = true;
     });
-    setLoading(false);
   };
   socket.on("qrauth", async (session) => {
     setSession(session);
     // Display login page data
     btn.current.textContent = "LoggedIn Successfully";
     btn.current.disabled = true;
+    setLoading(true);
   });
 
   const secondPage = async () => {
@@ -46,11 +48,10 @@ function Home() {
       notify();
       return;
     } else {
-      navigate("/send", {
-        countryCallingCode,
-        gender,
-        session,
-      });
+      localStorage.setItem("countryCallingCode", countryCallingCode);
+      localStorage.setItem("gender", gender);
+      localStorage.setItem("session", session);
+      navigate("/send");
     }
   };
 
@@ -71,7 +72,9 @@ function Home() {
                 <QRCode value={qrcode} />
               </div>
             )}
-            {loading && "Waiting for QRCode..."}
+            <h4 hidden="true" ref={hed}>
+              Waiting for QRCode...
+            </h4>
           </div>
           <div class="box2">
             <div>
@@ -81,7 +84,7 @@ function Home() {
                 id="countryCallingcode"
                 class="form-select"
                 aria-label="Default select example"
-                onChange={(e) => {
+                onClick={(e) => {
                   setCountry(e.target.value);
                 }}
               >
@@ -736,7 +739,7 @@ function Home() {
                 id="gender"
                 class="form-select"
                 aria-label="Default select example"
-                onChange={(e) => {
+                onClick={(e) => {
                   setGender(e.target.value);
                 }}
               >

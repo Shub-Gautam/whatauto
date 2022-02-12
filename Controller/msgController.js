@@ -8,6 +8,12 @@ exports.sendmsg = async (req, res) => {
       session: session,
     });
 
+    if (!client) {
+      res.status(400).send("Login Err");
+    } else {
+      res.status(200).send("OK");
+    }
+
     client.on("ready", async () => {
       console.log("Client is ready!");
 
