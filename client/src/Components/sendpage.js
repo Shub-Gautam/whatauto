@@ -6,8 +6,9 @@ import axios from "axios";
 function SendPage() {
   let navigate = useNavigate();
   const btn = useRef(null);
+
   const [msg, setMessage] = useState("");
-  const [myfile, setImage] = useState();
+  const [myfile, setImage] = useState(null);
 
   const countryCallingCode = localStorage.getItem("countryCallingCode");
   const gender = localStorage.getItem("gender");
@@ -24,27 +25,37 @@ function SendPage() {
     formData.append("session", session);
     formData.append("gender", gender);
 
-    const config = {
+    console.log(formData);
+
+    // const config = {
+    //   headers: {
+    //     "content-type": "multipart/form-data",
+    //   },
+    // };
+
+    axios({
+      url: "http://localhost:3000/api/v1/mg/sendmsg",
+      method: "POST",
       headers: {
         "content-type": "multipart/form-data",
       },
-    };
+      data: formData,
+    }).then((r) => {
+      localStorage.removeItem("gender");
+      localStorage.removeItem("countryCallingCode");
+      localStorage.removeItem("session");
+      if (r.status === 200) {
+        navigate("/confirmation");
+      } else {
+        navigate("/nopage");
+      }
+    });
 
-    const r = await axios.post(
-      "http://localhost:3000/api/v1/mg/sendmsg",
-      { formData },
-      config
-    );
-
-    localStorage.removeItem("gender");
-    localStorage.removeItem("countryCallingCode");
-    localStorage.removeItem("session");
-
-    if (r.status === 200) {
-      navigate("/confirmation");
-    } else {
-      navigate("/nopage");
-    }
+    // const r = await axios.post(
+    //   "http://localhost:3000/api/v1/mg/sendmsg",
+    //   formData,
+    //   config
+    // );
   };
 
   return (
@@ -66,8 +77,7 @@ function SendPage() {
             <div class="input-group mb-3">
               <input
                 type="file"
-                name="content"
-                accept=".png, .jpg"
+                name="myfile"
                 onChange={(e) => setImage(e.target.files[0])}
                 className="form-control"
                 id="inputGroupFile01"

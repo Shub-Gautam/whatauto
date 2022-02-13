@@ -1,29 +1,21 @@
 const { Client, MessageMedia } = require("whatsapp-web.js");
-const multer = require("multer");
+const fs = require("fs").promises;
 
-let storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "Uploads/"),
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${Math.round(
-      Math.random() * 1e9
-    )}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  },
-});
-
-let uplaod = multer({
-  storage: storage,
-  limit: { fileSize: 100000 * 100 },
-}).single("myfile");
+async function deleteFile(filePath) {
+  try {
+    await fs.unlink(filePath);
+    console.log(`Deleted ${filePath}`);
+  } catch (error) {
+    console.error(`Got an error trying to delete the file: ${error.message}`);
+  }
+}
 
 exports.sendmsg = async (req, res) => {
   try {
     console.log("welcome");
     const { msg, countryCallingCode, gender, session } = req.body;
 
-    console.log("This is my body " + req.body);
-    console.log("session" + req.body.msg + req.body.session);
-    if (!req.body.session) {
+    if (req.body.session === undefined) {
       return res.status(400).send("Login Again");
     }
 
@@ -42,12 +34,6 @@ exports.sendmsg = async (req, res) => {
       // Sending Confirmation
       res.status(200).send("OK");
 
-      uplaod(request, res, async (err) => {
-        if (err) {
-          return res.status(500).send({ error: err.message });
-        }
-      });
-
       // get numbers from database
       // const numbersArray = await Models.numbers.find({countryCode:91});
 
@@ -62,9 +48,9 @@ exports.sendmsg = async (req, res) => {
 
       console.log(req.file);
 
-      const media = await new MessageMedia.fromFilePath("./Uploads/");
+      const media = MessageMedia.fromFilePath(`Uploads/${req.file.filename}`);
 
-      const phone = 9548425684;
+      const phone = 9457578837;
       const number = `${phone}`;
       const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
       const final_number = `91${sanitized_number.substring(
@@ -76,8 +62,13 @@ exports.sendmsg = async (req, res) => {
       await client.sendMessage(number_det, req.body.msg); // send message
     });
 
+    // Deleting File after use
+    deleteFile(`Uploads/${req.file.filename}`);
+
     await client.initialize();
   } catch (err) {
+    // Delete File after use
+    deleteFile(`Uploads/${req.file.filename}`);
     res.status(400).send("Client Err");
   }
 };

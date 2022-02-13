@@ -5,9 +5,26 @@ const path = require("path");
 const { Client, MessageMedia } = require("whatsapp-web.js");
 const route = require("./route");
 const fs = require("fs");
+const bodyParser = require("body-parser");
+
+// var isMultipart = /^multipart\//i;
+
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
+
+// var urlencodedMiddleware = bodyParser.urlencoded({ extended: true });
+// app.use(function (req, res, next) {
+//   var type = req.get("Content-Type");
+//   if (isMultipart.test(type)) return next();
+//   return urlencodedMiddleware(req, res, next);
+// });
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;
