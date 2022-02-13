@@ -18,7 +18,7 @@ function Home() {
   const [countryCallingCode, setCountry] = useState("91");
   const [qrcode, setQRCode] = useState(false);
   const [gender, setGender] = useState("1");
-  const [session, setSession] = useState({});
+  // const [session, setSession] = useState({});
 
   let navigate = useNavigate();
 
@@ -34,6 +34,7 @@ function Home() {
       hed.current.hidden = true;
     });
   };
+
   socket.on("qrauth", async (session) => {
     let sessionData = JSON.stringify(session);
     localStorage.setItem("session", sessionData);

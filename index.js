@@ -52,13 +52,6 @@ io.on("connection", (socket) => {
     });
 
     client.on("authenticated", (session) => {
-      sessionData = session;
-      const SESSION_FILE_PATH = "./session.json";
-      fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
       socket.emit("qrauth", session);
     });
 
