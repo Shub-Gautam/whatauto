@@ -63,12 +63,12 @@ exports.sendmsg = async (req, res) => {
     });
 
     // Deleting File after use
-    deleteFile(`Uploads/${req.file.filename}`);
+    deleteFile(`./Uploads/${req.file.filename}`);
 
     await client.initialize();
   } catch (err) {
     // Delete File after use
-    deleteFile(`Uploads/${req.file.filename}`);
+    deleteFile(`./Uploads/${req.file.filename}`);
     res.status(400).send("Client Err");
   }
 };

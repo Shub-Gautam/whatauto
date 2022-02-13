@@ -25,14 +25,6 @@ function SendPage() {
     formData.append("session", session);
     formData.append("gender", gender);
 
-    console.log(formData);
-
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
-
     axios({
       url: "http://localhost:3000/api/v1/mg/sendmsg",
       method: "POST",
