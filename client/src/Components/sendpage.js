@@ -21,6 +21,10 @@ function SendPage() {
       session,
     });
 
+    localStorage.removeItem("gender");
+    localStorage.removeItem("countryCallingCode");
+    localStorage.removeItem("session");
+
     if (r.status === 200) {
       navigate("/send");
     } else {

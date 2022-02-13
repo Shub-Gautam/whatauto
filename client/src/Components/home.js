@@ -18,7 +18,7 @@ function Home() {
   const [countryCallingCode, setCountry] = useState("91");
   const [qrcode, setQRCode] = useState(false);
   const [gender, setGender] = useState("1");
-  const [session, setSession] = useState("");
+  const [session, setSession] = useState({});
 
   let navigate = useNavigate();
 
@@ -35,8 +35,10 @@ function Home() {
     });
   };
   socket.on("qrauth", async (session) => {
-    setSession(session);
+    let sessionData = JSON.stringify(session);
+    localStorage.setItem("session", sessionData);
     // Display login page data
+    console.log(session);
     btn.current.textContent = "LoggedIn Successfully";
     btn.current.disabled = true;
     setLoading(true);
@@ -50,7 +52,7 @@ function Home() {
     } else {
       localStorage.setItem("countryCallingCode", countryCallingCode);
       localStorage.setItem("gender", gender);
-      localStorage.setItem("session", session);
+
       navigate("/send");
     }
   };

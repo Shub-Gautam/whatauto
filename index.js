@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const { Client, MessageMedia } = require("whatsapp-web.js");
 const route = require("./route");
+const fs = require("fs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -51,6 +52,13 @@ io.on("connection", (socket) => {
     });
 
     client.on("authenticated", (session) => {
+      sessionData = session;
+      const SESSION_FILE_PATH = "./session.json";
+      fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
       socket.emit("qrauth", session);
     });
 
