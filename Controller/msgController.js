@@ -1,5 +1,6 @@
 const { Client, MessageMedia } = require("whatsapp-web.js");
 const fs = require("fs").promises;
+const path = require("path");
 
 async function deleteFile(filePath) {
   try {
@@ -60,15 +61,14 @@ exports.sendmsg = async (req, res) => {
 
       await client.sendMessage(number_det, media);
       await client.sendMessage(number_det, req.body.msg); // send message
+      // Deleting File after use
+      deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
     });
-
-    // Deleting File after use
-    deleteFile(`./Uploads/${req.file.filename}`);
 
     await client.initialize();
   } catch (err) {
     // Delete File after use
-    deleteFile(`./Uploads/${req.file.filename}`);
+    deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
     res.status(400).send("Client Err");
   }
 };
