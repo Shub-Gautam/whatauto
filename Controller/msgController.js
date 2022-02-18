@@ -49,7 +49,7 @@ exports.sendmsg = async (req, res) => {
 
       console.log(req.file);
 
-      const phone = 9457578837;
+      const phone = 9548425684;
       const number = `${phone}`;
       const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
       const final_number = `91${sanitized_number.substring(
