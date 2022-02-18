@@ -10,6 +10,7 @@
 
 .marginTop {
   margin-top: 10px;
+  color: #fff;
 }
 
 .App-header {
@@ -21,7 +22,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgb(5, 20, 17);
+  color: #fff;
 }
 
 @keyframes App-logo-spin {

@@ -4,8 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const { Client, MessageMedia } = require("whatsapp-web.js");
 const route = require("./route");
-const fs = require("fs");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 // var isMultipart = /^multipart\//i;
 

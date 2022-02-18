@@ -13,6 +13,8 @@ function SendPage() {
   const countryCallingCode = localStorage.getItem("countryCallingCode");
   const gender = localStorage.getItem("gender");
   const session = localStorage.getItem("session");
+  const city = localStorage.getItem("city");
+  const state = localStorage.getItem("state");
 
   const sendReq = async () => {
     btn.current.textContent = "Sending Your Request";
@@ -24,6 +26,8 @@ function SendPage() {
     formData.append("msg", msg);
     formData.append("session", session);
     formData.append("gender", gender);
+    formData.append("city", city);
+    formData.append("state", state);
 
     axios({
       url: "http://localhost:3000/api/v1/mg/sendmsg",
@@ -55,8 +59,8 @@ function SendPage() {
       <div className="App">
         <div className="App-header">
           <div>
-            <div className="form-group">
-              <label for="comment">Write your msg here :</label>
+            <div className="form-group ">
+              <label for="comment">message</label>
               <textarea
                 className="form-control"
                 rows="5"
@@ -65,8 +69,8 @@ function SendPage() {
                 onChange={(e) => setMessage(e.target.value)}
               ></textarea>
             </div>
-            upload you image here :
-            <div class="input-group mb-3">
+
+            <div class=" marginTop input-group mb-3 top-margin">
               <input
                 type="file"
                 name="myfile"
@@ -75,6 +79,7 @@ function SendPage() {
                 id="inputGroupFile01"
               />
             </div>
+            <div class="marginTop">put your photo or video here</div>
             <button ref={btn} onClick={sendReq} className="btn btn-success">
               Send
             </button>

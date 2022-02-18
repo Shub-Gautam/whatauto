@@ -49,8 +49,6 @@ exports.sendmsg = async (req, res) => {
 
       console.log(req.file);
 
-      const media = MessageMedia.fromFilePath(`Uploads/${req.file.filename}`);
-
       const phone = 9457578837;
       const number = `${phone}`;
       const sanitized_number = number.toString().replace(/[- )(]/g, ""); // remove unnecessary chars from the number
@@ -59,16 +57,21 @@ exports.sendmsg = async (req, res) => {
       )}`; // add 91 before the number here 91 is country code of India
       const number_det = final_number + "@c.us";
 
-      await client.sendMessage(number_det, media);
+      if (req.file) {
+        const media = MessageMedia.fromFilePath(`Uploads/${req.file.filename}`);
+        await client.sendMessage(number_det, media);
+      }
       await client.sendMessage(number_det, req.body.msg); // send message
       // Deleting File after use
-      deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
+      if (req.file)
+        deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
     });
 
     await client.initialize();
   } catch (err) {
     // Delete File after use
-    deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
+    if (req.file)
+      deleteFile(path.join(process.cwd(), `/Uploads/${req.file.filename}`));
     res.status(400).send("Client Err");
   }
 };

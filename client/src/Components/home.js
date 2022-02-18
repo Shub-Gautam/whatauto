@@ -4,6 +4,8 @@ import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+
 var QRCode = require("qrcode.react");
 
 // Setting up socket connection
@@ -14,12 +16,15 @@ toast.configure();
 function Home() {
   const btn = useRef(null);
   const hed = useRef(null);
+  const sel1 = useRef(null);
+  const sel2 = useRef(null);
   const [loading, setLoading] = useState(false);
   const [countryCallingCode, setCountry] = useState("91");
   const [qrcode, setQRCode] = useState(false);
   const [gender, setGender] = useState("1");
   const [session, setSession] = useState(false);
-
+  const [city, setCity] = useState("New Delhi");
+  const [state, setState] = useState("Delhi");
   let navigate = useNavigate();
 
   const notify = () => {
@@ -52,9 +57,16 @@ function Home() {
     } else {
       localStorage.setItem("countryCallingCode", countryCallingCode);
       localStorage.setItem("gender", gender);
-
+      localStorage.setItem("state", state);
+      localStorage.setItem("city", city);
       navigate("/send");
     }
+  };
+
+  const getstates = async () => {
+    const states = axios.post("http://localhost:3000/api/v1/lc/getstates", {
+      countryCallingCode,
+    });
   };
 
   return (
@@ -88,6 +100,7 @@ function Home() {
                 aria-label="Default select example"
                 onClick={(e) => {
                   setCountry(e.target.value);
+                  getstates();
                 }}
               >
                 <option data-countryCode="DZ" value="213">
@@ -732,6 +745,85 @@ function Home() {
                 <option data-countryCode="ZW" value="263">
                   Zimbabwe (+263)
                 </option>
+              </select>
+
+              <p className="marginTop">Choose state :</p>
+
+              <select
+                name="state"
+                id="state"
+                ref={sel1}
+                class="form-select"
+                aria-label="Default select example"
+                onClick={(e) => {}}
+              >
+                <option value="">Select State</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Andaman and Nicobar Islands">
+                  Andaman and Nicobar Islands
+                </option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Dadar and Nagar Haveli">
+                  Dadar and Nagar Haveli
+                </option>
+                <option value="Daman and Diu">Daman and Diu</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Puducherry">Puducherry</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+              </select>
+
+              <p className="marginTop">Choose city :</p>
+
+              <select
+                name="city"
+                id="city"
+                ref={sel2}
+                class="form-select"
+                aria-label="Default select example"
+                onClick={(e) => {}}
+              >
+                <option value="">Select City</option>
+                <option value="">Alipur</option>
+                <option value="">Bawana</option>
+                <option value="">Central Delhi</option>
+                <option value="">Delhi</option>
+                <option value="">Deoli</option>
+                <option value="">East Delhi</option>
+                <option value="">Karol Bagh</option>
+                <option value="">Najafgarh</option>
+                <option value="">Nangloi Jat</option>
+                <option value="">Narela</option>
+                <option value="">New Delhi</option>
+                <option value="">North Delhi</option>
+                <option value="">North East Delhi</option>
               </select>
 
               <p className="marginTop">Choose the sex :</p>
